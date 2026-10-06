@@ -60,6 +60,6 @@ use command `/reload` to reload extension changes
 - The server must be started with `--slot-save-path` pointing at a writable
   directory, or saves will fail.
 - There is no delete endpoint on the server; old `pi-*.bin` files accumulate
-  in `--slot-save-path` (each is as big as the saved context — several GB for
+  in `--slot-save-path` (each is as big as the saved context, several GB for
   large chats).
 - Currently only supports single slot under single/router mode.
