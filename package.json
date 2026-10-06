@@ -1,0 +1,24 @@
+{
+  "name": "pi-llama-slot-plugin",
+  "version": "0.1.0",
+  "description": "Pi extension: llama slot plugin",
+  "type": "module",
+  "keywords": ["pi-package"],
+  "scripts": {
+    "check": "tsc --noEmit"
+  },
+  "pi": {
+    "extensions": [
+      "./index.ts"
+    ]
+  },
+  "peerDependencies": {
+    "@earendil-works/pi-coding-agent": "*",
+    "typebox": "*"
+  },
+  "devDependencies": {
+    "@earendil-works/pi-coding-agent": "0.99.2",
+    "typebox": "^1.1.38",
+    "typescript": "^5.5.0"
+  }
+}
