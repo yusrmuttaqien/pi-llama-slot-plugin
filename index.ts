@@ -13,6 +13,8 @@ type Context = ExtensionCommandContext | ExtensionContext;
 const TYPE = "llama-slot";
 const TRACKED_CHAT = new Set<string>();
 
+let compactedThisRun = false;
+
 async function slotOps(
   ctx: Context,
   action: "save" | "restore",
@@ -167,7 +169,11 @@ export default function (pi: ExtensionAPI) {
     if (!isLlama(ctx)) return;
     const auto = isAuto(ctx);
 
-    if (!auto) return;
+    if (!auto || compactedThisRun) {
+      compactedThisRun = false;
+      
+      return;
+    };
     await saveSlot(ctx, true);
   });
   pi.on("before_agent_start", async (_, ctx) => {
@@ -177,5 +183,12 @@ export default function (pi: ExtensionAPI) {
     if (!auto || TRACKED_CHAT.has(ctx.sessionManager.getSessionId())) return;
     trackChat(ctx);
     await restoreSlot(ctx, true);
+  });
+  pi.on("session_compact", async (_, ctx) => {
+    if (!isLlama(ctx)) return;
+    const reasonThreshold = _.reason === "threshold"
+
+    if (!reasonThreshold) return;
+    compactedThisRun = true;
   });
 }
